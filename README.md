@@ -23,6 +23,7 @@ bc.getPages （記事一覧取得）
 
 [クライアントからの利用]
 以下のXMLデータをbaser設置サーバの /xmlrpc へPOSTしたらOKです。
+<pre>
 <?xml version="1.0" encoding="utf-8"?>
 <methodCall>
 	<methodName>bc.newPage</methodName>
@@ -85,5 +86,5 @@ bc.getPages （記事一覧取得）
 		</param>
 	</params>
 </methodCall>
-
+</pre>
 
