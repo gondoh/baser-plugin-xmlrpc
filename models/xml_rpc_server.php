@@ -1,12 +1,8 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of xmlrpc
+ * baserCMS用 XML-RPCサーバ機能
+ * 大まかな機能はThe Incutio XML-RPC Libraryを利用
+ * 細かい実装部分
  *
  * @author gondoh
  */
@@ -26,10 +22,12 @@ class XmlRpcServer extends IXR_Server {
 		parent::__construct($this->callableMethods);
 	}
 	
-	/*
-	 * タグ未対応
+	/**
+	 * ページ追加
+	 * 
 	 */
 	protected function newPage($args){
+		// TODO タグの登録機能がない
 		$blogId     = $args[0];
 		$account    = $args[1];
 		$password   = $args[2];
@@ -71,6 +69,7 @@ class XmlRpcServer extends IXR_Server {
 	
 	// ユーザが存在するか確認する
 	protected function checkUser($account, $password){
+		//TODO 細かい権限確認してない
 		return $this->controllerInstance->User->findByNameAndPassword(
 				$account, sha1(Configure::read('Security.salt').$password));
 	}
