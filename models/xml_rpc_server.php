@@ -34,9 +34,9 @@ class XmlRpcServer extends IXR_Server {
 		$account    = $args[1];
 		$password   = $args[2];
 		$title      = $args[3]["title"];
-		$content    = $args[3]["description"];
+		$content    = $args[3]["content"];
 		$detail     = $args[3]["detail"];
-		$categoryId = $args[3]["category_id"];
+		$categoryId = intval($args[3]["categoryId"]) ? intval($args[3]["categoryId"]) : '';
 		$date       = $args[3]["dateCreated"];
 		$publish    = $args[4];
 		

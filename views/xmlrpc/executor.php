@@ -7,9 +7,11 @@
 <script src="http://ajax.microsoft.com/ajax/jquery/jquery-1.8.2.min.js"></script>
 <script>
 $(function(){
+	
+	// submit form actions
 	$("#loader_area").hide();
 	$("#responseData").hide();
-	
+
 	$("#data_form").submit(function(){
 		$("#button_area").hide();
 		$("#responseData").slideUp().val('');
@@ -31,6 +33,13 @@ $(function(){
 		});
 		return false;
 	});
+	
+	// select method event
+	$("#method").change(function(){
+		format = $("#"+$(this).val()).val();
+		$("#postputdata").val('<?xml version="1.0" encoding="utf-8" ?>' + format);
+	});
+	
 });
 var i = 0;var loaderAry = new Array("―", "＼", "｜" ,"／");
 function changeLoader(){ $("#loader_area").html(loaderAry[i]); i++; if (i >= 4) i = 0; }
@@ -38,46 +47,123 @@ setInterval("changeLoader()",80);
 </script>
 </head>
 
-<body>
-  <header>
-	<h1 class="_msg_">XML-RPC plugin checker</h1>
-  </header>
-  <section id="request">
-	<fieldset>
-	  <legend class="_msg_">request</legend>
-	  <?php echo $form->create(array('type' => 'post', 'action' => 'index', 'id'=> 'data_form')); ?>
-		  <input type="hidden" name="http_method" value="post" >
-		  <p id="data">
-			<label for="postputdata" class="_msg_">data</label>
-			<textarea name="data" id="postputdata" tabindex="4" onkeyup=""></textarea>
-		  </p>
-		  <p id="button_area">
-			<input class="_msg_val_" type="submit" value="send" id="submit" tabindex="5">
-			<input class="_msg_val_" type="reset" value="clear"> 
-		  </p>
-		  <p id="loader_area"></p>
-	  <?php echo $form->end(); ?>
-	</fieldset>
-  </section>
-  <hr id="sep" />
+	<body>
+		<header>
+			<h1 class="_msg_">XML-RPC plugin excecuter</h1>
+		</header>
+		<section id="request">
+			<fieldset>
+				<legend class="_msg_">request</legend>
+				<?php echo $form->create(array('type' => 'post', 'action' => 'index', 'id' => 'data_form')); ?>
 
-  <section id="response">
-	<fieldset>
-	  <legend class="_msg_">response</legend>
-	  <div id="responsePrint">
-		<p id="pstatus">
-		  <label class="_msg_">status</label> 
-		  <span id="responseStatus">&nbsp;</span>
-		</p>
-		<p id="respHeaders">
-		  <label for="responseData" class="_msg_">data</label> 
-		  <textarea name="responseData" id="responseData" tabindex="6"></textarea>
-		</p>
-	  </div>
-	</fieldset>
-  </section>
-  <footer>
-	<p>Copyright &copy; 2013 <a href="http://blog.gufii.net">gondoh </a></p>
-  </footer>
-</body>
+				<select id="method">
+					<option value="">--select method--</option>
+					<option value="newPage">newPage</option>
+					<option value="uploadFile">uploadFile</option>
+					<option value="getCategories">getCategories</option>
+					<option value="getTags">getTags</option>
+					<option value="getPage">getPage</option>
+					<option value="getPages">getPages</option>
+				</select>
+
+				<p id="data">
+					<label for="postputdata" class="_msg_">data</label>
+					<textarea name="data" id="postputdata" tabindex="4" onkeyup=""></textarea>
+				</p>
+				<p id="button_area">
+					<input class="_msg_val_" type="submit" value="send" id="submit" tabindex="5">
+					<input class="_msg_val_" type="reset" value="clear"> 
+				</p>
+				<p id="loader_area"></p>
+				<?php echo $form->end(); ?>
+			</fieldset>
+		</section>
+		<hr id="sep" />
+
+		<section id="response">
+			<fieldset>
+				<legend class="_msg_">response</legend>
+				<div id="responsePrint">
+					<p id="pstatus">
+						<label class="_msg_">status</label> 
+						<span id="responseStatus">&nbsp;</span>
+					</p>
+					<p id="respHeaders">
+						<label for="responseData" class="_msg_">data</label> 
+						<textarea name="responseData" id="responseData" tabindex="6"></textarea>
+					</p>
+				</div>
+			</fieldset>
+		</section>
+		<footer>
+			<p>Copyright &copy; 2013 <a href="http://blog.gufii.net">gondoh </a></p>
+		</footer>
+	</body>
+	
+<div style="display:none;">
+<textarea id="newPage">
+<methodCall>
+	<methodName>bc.newPage</methodName>
+	<params>
+		<param>
+			<value>
+				<string>ブログID(初期値1)</string>
+			</value>
+		</param>
+		<param>
+			<value>
+				<string>ログインアカウント</string>
+			</value>
+		</param>
+		<param>
+			<value>
+				<string>ログインパスワード</string>
+			</value>
+		</param>
+		<param>
+			<value>
+				<struct>
+					<member>
+						<name>title</name>
+						<value>
+							<string>記事タイトル</string>
+						</value>
+					</member>
+					<member>
+						<name>content</name>
+						<value>
+							<string>記事の本文</string>
+						</value>
+					</member>
+					<member>
+						<name>detail</name>
+						<value>
+							<string>記事の詳細</string>
+						</value>
+					</member>
+					<member>
+						<name>categoryId</name>
+						<value>
+							<string>カテゴリID</string>
+						</value>
+					</member>
+					<member>
+						<name>dateCreated</name>
+						<value>
+							<string>2012/05/01 00:00:00</string><!-- strtotimeでパースするのでそれで読める形ならなんでも -->
+						</value>
+					</member>
+				</struct>
+			</value>
+		</param>
+		<param>
+			<value>
+				<int>1</int><!-- 公開状態 -->
+			</value>
+		</param>
+	</params>
+</methodCall>
+</textarea>
+</div>
+	
 </html>
